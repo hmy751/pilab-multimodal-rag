@@ -1,0 +1,27 @@
+[
+    {
+        "question": "영상에서 사용된 파이썬 내장 함수를 모두 나열해줘",
+        "expected": "input(), split(), int(), len(), print()",
+        "category": "visual"
+    },
+    {
+        "question": "total 변수의 초기값은 무엇인가?",
+        "expected": "0",
+        "category": "visual"
+    },
+    {
+        "question": "영상 실행 화면에서 직접 입력한 숫자들은 무엇인가?",
+        "expected": "70,80,90,100,99",
+        "category": "visual"
+    },
+    {
+        "question": "점수를 입력받을 때 사용한 구분자는 무엇인가?",
+        "expected": "쉼표(,) — split(\",\")으로 분리",
+        "category": "tech_term"
+    },
+    {
+        "question": "평균을 계산하는 코드는 어떻게 작성되어 있는가?",
+        "expected": "average = total / len(score_list)",
+        "category": "visual"
+    }
+]

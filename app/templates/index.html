@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MediaFlow AI Agent</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <span class="logo">MediaFlow AI</span>
+        <span class="tagline">User Interview Intelligence Platform</span>
+        <span id="health-badge" class="badge badge-checking">확인 중…</span>
+      </div>
+    </header>
+
+    <main class="layout">
+      <!-- ── 패널 1: 미디어 라이브러리 ── -->
+      <section class="panel panel-library">
+        <h2 class="panel-title">미디어 라이브러리</h2>
+
+        <!-- 업로드 -->
+        <div class="upload-area" id="upload-area">
+          <p class="upload-hint">
+            영상·음성 파일을 드래그하거나 클릭하여 업로드
+          </p>
+          <p class="upload-hint-small">MP4 · MOV · MP3 · WAV · M4A 등 지원</p>
+          <input
+            type="file"
+            id="file-input"
+            accept=".mp4,.mov,.avi,.mkv,.mp3,.wav,.m4a,.webm"
+            hidden
+          />
+          <button class="btn btn-primary" id="upload-btn">파일 선택</button>
+        </div>
+
+        <!-- 업로드 진행 상태 -->
+        <div id="upload-status" class="upload-status hidden">
+          <div class="progress-bar-wrap">
+            <div class="progress-bar" id="progress-bar"></div>
+          </div>
+          <p id="status-text" class="status-text">대기 중…</p>
+        </div>
+
+        <!-- 미디어 목록 -->
+        <div class="media-list-header">
+          <span>처리된 파일</span>
+          <button class="btn btn-ghost btn-sm" id="refresh-btn">
+            새로고침
+          </button>
+        </div>
+        <ul id="media-list" class="media-list">
+          <li class="media-item-empty">업로드된 파일이 없습니다.</li>
+        </ul>
+      </section>
+
+      <!-- ── 패널 2: 플레이어 + 전사 ── -->
+      <section class="panel panel-player">
+        <h2 class="panel-title">플레이어 &amp; 전사</h2>
+
+        <div id="player-placeholder" class="player-placeholder">
+          <p>왼쪽에서 미디어를 선택하세요.</p>
+        </div>
+        <audio id="audio-player" controls class="hidden media-player"></audio>
+        <video id="video-player" controls class="hidden media-player"></video>
+
+        <div class="summary-section">
+          <div class="summary-header">
+            <span>요약</span>
+            <button class="btn btn-secondary btn-sm" id="summary-btn" disabled>
+              요약 생성
+            </button>
+          </div>
+          <div id="summary-content" class="summary-content">
+            <p class="empty-msg">미디어를 선택한 뒤 요약을 생성하세요.</p>
+          </div>
+        </div>
+
+        <div class="transcript-header">
+          <span>전사 세그먼트</span>
+          <span id="segment-count" class="badge badge-info"></span>
+        </div>
+        <div id="transcript-list" class="transcript-list">
+          <p class="empty-msg">미디어를 선택하면 전사 내용이 표시됩니다.</p>
+        </div>
+      </section>
+
+      <!-- ── 패널 3: Q&A + 평가 ── -->
+      <section class="panel panel-qa">
+        <h2 class="panel-title">Q&amp;A &amp; 평가</h2>
+
+        <!-- Q&A 입력 -->
+        <div class="qa-input-area">
+          <textarea
+            id="question-input"
+            class="qa-textarea"
+            rows="3"
+            placeholder="질문을 입력하세요. 예: 사용자가 결제 버튼에 대해 뭐라고 했나요?"
+          ></textarea>
+          <div class="qa-actions">
+            <label class="eval-checkbox-label">
+              <input type="checkbox" id="eval-include-cb" />
+              평가에 포함
+            </label>
+            <button class="btn btn-primary" id="ask-btn">질문하기</button>
+          </div>
+        </div>
+
+        <!-- 답변 영역 -->
+        <div id="answer-area" class="answer-area hidden">
+          <div class="question-content" id="question-content" style="font-weight:bold; margin-bottom:8px;"></div>
+          <div class="answer-content" id="answer-content"></div>
+          <div class="sources-list" id="sources-list"></div>
+        </div>
+
+        <!-- 대화 기록 -->
+        <div id="chat-history" class="chat-history"></div>
+
+        <!-- 평가 섹션 -->
+        <div class="eval-section">
+          <div class="eval-header">
+            <span class="eval-title">평가 실행</span>
+            <span id="eval-question-count" class="badge badge-info"
+              >포함된 질문: 0개</span
+            >
+          </div>
+          <div class="eval-wer-row">
+            <label for="wer-reference" class="eval-label"
+              >WER Reference (선택)</label
+            >
+            <textarea
+              id="wer-reference"
+              class="wer-textarea"
+              rows="2"
+              placeholder="0:00~2:00 구간을 직접 받아쓰기한 텍스트 (선택사항)"
+            ></textarea>
+          </div>
+          <button class="btn btn-secondary" id="run-eval-btn" disabled>
+            평가 실행 (최소 1개 질문 필요)
+          </button>
+
+          <!-- Chart.js 차트 -->
+          <div id="eval-chart-wrap" class="eval-chart-wrap hidden">
+            <canvas id="eval-chart"></canvas>
+          </div>
+          <div id="eval-result-raw" class="eval-result-raw hidden"></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/static/js/main.js"></script>
+  </body>
+</html>

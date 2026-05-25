@@ -1,0 +1,63 @@
+{
+  "created_at": "2026-04-12T09:12:39.420380+00:00",
+  "dataset": "coding-tutorial",
+  "config": {
+    "vision_provider": "openai",
+    "vision_model": "gpt-4o-mini",
+    "prompt_version": "v5-code",
+    "frames_per_minute": 3
+  },
+  "latency_ms": 45538,
+  "data": [
+    {
+      "timestamp": 0.0,
+      "description": "[코드] \n```python\nuser_input_scores = input(\"점을 입력하세요 (예: 85,90,78): \")\nscore_list = user_input_scores.split(\",\")\nfor i in range(5):\n    print(f'숫자 {i}')\n```\n\n[실행결과] \n(출력창에 보이는 텍스트는 없음)\n\n[화면텍스트] \n평균 점수 계산기 만들기\n\n평균 점수를 계산할 프로그램입니다. 이 예제를 통해 리스트와 루프를 활용하는 방법을 익힐 수 있습니다.\n\n1. 점수 입력받기\n\n사용자가 쉼표로 구분된 점수를 입력하면, 이를 split(\",\")으로 분리해서 리스트로 변환할 거예요.\n\n알아두기: split() 함수는 문자를 특정 기준으로 나누어 리스트로 만들어주는 함수예요. 여기서는 쉼표를 기준으로 나누어 리스트를 만들 것이기 때문에, 쉼표 뒤에 공백이 없도록 입력해야 해요.\n\n그렇다면 user_input_scores는 문자의 변어서 뒤에, .을 붙이고 split() 함수를 써야할까요? split()은 문자의 타입이 아니기 때문에요. 문자는 객체라 볼리\n\n[키워드] input, split, 리스트, 반복문, range, f-string",
+      "latency_ms": 5730
+    },
+    {
+      "timestamp": 20.0,
+      "description": "[코드]\n```python\nuser_input_scores = input(\"점수를 쉼표로 구분하여 입력하세요(예: 85,90,78): \")\nscore_list = user_input_scores.split(\",\")\n```\n\n[실행결과]\n(출력창에는 텍스트가 보이지 않음)\n\n[화면텍스트]\n코드를 실행하면 결과가 여기에 표시됩니다.   \n아직 로그가 없습니다...\n\n[키워드]\ninput, split, list, 변수, 점수",
+      "latency_ms": 2859
+    },
+    {
+      "timestamp": 40.0,
+      "description": "[코드]\n```python\nuser_input_scores = input(\"점수를 쉼표로 구분해 입력하세요(예: 85,90,78): \")\nscore_list = user_input_scores.split(\",\")\n```\n\n[실행결과]\n(없음)\n\n[화면텍스트]\n- 알아두기: split() 함수는 문자를 특정 기준으로 나누어 리스트로 만들어주는 함수예요.\n- 여기서는 쉼표(,)를 기준으로 나누어 리스트로 만들어지기 때문에, 쉼표 뒤에 공백이 없도록 입력해야 해요.\n- 그럼 왜 user_input_scores라는 문자열 변수에, .을 붙이고 split() 함수를 사용했을까요?\n- split() 함수가 문자의 타입에 속하는 함수이기 때문에. 문자는 객체라고 불리는 일종의 '물건'으로, 객체마다 사용할 수 있는 다양한 특수 함수가 있어요. split()도 그 중 하나입니다.\n\n[키워드]\ninput, split, 리스트, 문자열, 함수, 변수",
+      "latency_ms": 4301
+    },
+    {
+      "timestamp": 60.0,
+      "description": "[코드]\n```python\nuser_input_scores = input(\"점수를 쉼표로 구분하여 입력하세요 (예: 85,90,78): \")\nscore_list = user_input_scores.split(\",\")\n```\n\n[실행결과]\n없음\n\n[화면텍스트]\n- \"점수를 쉼표로 구분하여 입력하세요 (예: 85,90,78): \"\n- \"알아두기: split() 함수는 문자를 특정 기준으로 나누어 리스트로 만들어주는 함수예요.\"\n- \"코드를 실행하면 결과가 여기 이...\"\n- \"아직 로그가 없습니다...\"\n\n[키워드]\ninput, split, 리스트, 구분, 함수",
+      "latency_ms": 3528
+    },
+    {
+      "timestamp": 80.0,
+      "description": "[코드]\n```python\ntotal = 0\nfor score in score_list:\n    total += int(score)  # 문자열을 정수로 변환해주세요.\naverage = total / len(score_list)  # 점수를 나누어 평균을\n```\n\n[실행결과]\n(비어있음)\n\n[화면텍스트]\n22. 평균 계산하기  \n이제 score_list에 있는 문자열 점수들을 숫자로 변환하고, 리스트의 모든 요소를 대한 후, 평균을 계산합니다.  \n여기서 새로운 표현 동작: total += int(score) 옆에 뭘까요? 조금 낮선 연산자죠? 이 표현은 사실 total = total + int(score)와 같은 의미예요. 같은 값을 반복해서 계산할 때 짧게 쓰는 방법이라고요. 즉, total에 int(score)를 더한 값을 다시 total에 저장하는 거예요.  \n비슷하죠? — 그럼, /= 나누는 것을 간단하게 표현해줘요. 이런 표현은 코드도 더 짧고 쉽게 만들어줍니다.\n\n[키워드]\ntotal, score, score_list, int, average, len, 반복, 평균, 문자열, 정수, 연산자",
+      "latency_ms": 5225
+    },
+    {
+      "timestamp": 100.0,
+      "description": "[코드]\n```python\ntotal = 0\nfor score in score_list:\n    total += int(score)  # 문자열을 정수로 변환해 합산\naverage = total / len(score_list)  # 점수를 나누어 평균을 계산\n```\n\n[실행결과]\n없음\n\n[화면텍스트]\n코딩 놀이터 배우는 왕초보 파이썬  \n2. 점수 합산 및 평균 계산하기  \n이제 score_list에 있는 문자열 점수들을 숫자로 변환한 후, 평균을 계산합니다.  \n여기서 새로운 표현 등장.  \n이 표현은 사실 total = total + int(score)와 같은 의미예요.  \n비슷하게, += 는 더하기를 간단하게 해줘요. 이런 표현들은 코드를 짧고 읽기 쉽게 만들어주는 좋은 방법이에요!  \n3. 결과 출력  \n마지막으로 계산된 평균 점수를 출력합니다.  \n\n[키워드]\ntotal, score, score_list, int, average, len",
+      "latency_ms": 3806
+    },
+    {
+      "timestamp": 120.0,
+      "description": "[코드]\n```python\ntotal = 0\nfor score in score_list:\n    total += int(score)  # 문자열을 정수로 변환하여 합산\naverage = total / len(score_list)\n```\n\n[실행결과]\n\n[화면텍스트]\n2. 점수 합산 및 평균 구하기  \n이제 score_list 에 있는 문자열 점수를 숫자로 변환한 후, 리스트의 모든 요소를 대한 후, 평균을 계산합니다.  \n여기서 새로운 표현 동작: total = int(score) 에서 뭘까요? 조금 낮선 연산자죠?  \n...  \n비슷하게, += 는 더하기, *= 는 나누기를 간단히 표현해줘요...\n\n[키워드]\ntotal, score, score_list, int, average, len, +=, /",
+      "latency_ms": 3797
+    },
+    {
+      "timestamp": 140.0,
+      "description": "[코드]\n```python\nuser_input_scores = input(\"점수를 쉼표로 구분하여 입력하세요 (예: 85,90,78): \")\nscore_list = user_input_scores.split(\",\")  # 쉼표를 기준으로 분리해 리스트 생성\n\ntotal = 0\nfor score in score_list:\n    total = int(score)  # 각 점수를 정수로 변환 후 합산\n\naverage = total / len(score_list)  # 총합을 개수로 나누어 평균 계산\n\nprint(\"입력한 점수들의 평균은:\", average)\n```\n\n[실행결과]\n입력한 점수들의 평균은: 84.33333333333333\n\n[화면텍스트]\n전체 코드  \n이제 모든 단계를 합쳐서 완성된 코드를 만들어볼게요.  \n점수를 쉼표로 구분하여 입력하세요 (예: 85,90,78):  \n이제 놀이터에서 코드를 실행하고 다양한 점수들을 입력해보세요!  \n\n[키워드]\ninput, split, for, total, int, len, print, average",
+      "latency_ms": 4714
+    },
+    {
+      "timestamp": 160.0,
+      "description": "[코드]\n```python\nuser_input_scores = input(\"점수를 쉼표로 구분하여 입력하세요 (예: 85,90,78): \")\nscore_list = user_input_scores.split(\",\")  # 쉼표를 기준으로 분리해 리스트 생성\ntotal = 0\nfor score in score_list:\n    total += int(score)  # 각 점수를 정수로 변환 후 합산\naverage = total / len(score_list)  # 총합을 개수로 나누어 평균 계산\nprint(\"입력한 점수들의 평균은:\", average)\n```\n\n[실행결과]\n입력한 점수들의 평균은: 87.8\n\n[화면텍스트]\n점수를 쉼표로 구분하여 입력하세요 (예: 85,90,78): \n실행 결과 (85,90,78을 입력했을 때):\n입력한 점수는: 84.33333333333333\n\n[키워드]\ninput, split, for, int, total, average, print, len",
+      "latency_ms": 5654
+    },
+    {
+      "timestamp": 180.0,
+      "description": "[코드]\n```python\n# 입력된 점수들 받아오기\nuser_input_scores = input(\"점을 심표로 구분하여 입력하세요 (예: 85,90,78): \")\nscore_list = user_input_scores.split(\",\")  # 심표를 기준으로 분리해 리스트 생성\n\n# 점수의 합산과 평균 계산\ntotal = 0\nfor score in score_list:\n    total += int(score)  # 각 점수를 정수로 변환 후 합산\n\naverage = total / len(score_list)  # 총합을 개수로 나누어 평균 계산\n\n# 결과 출력\nprint(\"입력한 점수들의 평균은:\", average)\n```\n\n[실행결과]\n입력한 점수들의 평균은: 87.8\n\n[화면텍스트]\n전체 코드\n이제 모든 단계를 합쳐서 완성된 코드를 만들어볼게요.\n점수를 심표로 구분하여 입력하세요 (예: 85,90,78): \n실행 결과 (85,90,78을 입력했을 때):\n점수를 심표로 구분하여 입력하세요 (예: 85,90,78): \n입력한 점수들의 평균은: 84.33333333333333\n\n[키워드]\ninput, split, int, for, total, average, print, len",
+      "latency_ms": 5921
+    }
+  ]
+}

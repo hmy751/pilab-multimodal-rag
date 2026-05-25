@@ -1,0 +1,63 @@
+{
+  "created_at": "2026-04-18T01:20:05.415156+00:00",
+  "dataset": "coding-tutorial",
+  "config": {
+    "vision_provider": "openai",
+    "vision_model": "gpt-5.4",
+    "prompt_version": "v5-code",
+    "frames_per_minute": 3
+  },
+  "latency_ms": 61302,
+  "data": [
+    {
+      "timestamp": 0.0,
+      "description": "[코드]\n```python\n# 여기서 Python 코드를 직접 작성하고 실행해보세요!\n\nprint(\"안녕하세요!\")\n\nfor i in range(5):\n    print(f\"숫자 {i}\")\n```\n\n```python\nuser_input_scores = input(\"점수를 쉼표로 구분하여 입력하세요 (예: 85,90,78):\")\nscore_list = user_input_scores.split(\",\")  # 쉼표로 구분해 리스트로 변환\n```\n\n[실행결과]\n코드를 실행하면 결과가 여기에 표시됩니다...\n아직 로그가 없습니다...\n\n[화면텍스트]\n코딩 놀이터로 배우는 왕초보 파이썬\n진행중 82%\n22. 평균 계산기\n평균 점수 계산기 만들기\n\n평균 점수 계산기를 만들어 볼 거예요. 여러 개의 점수를 입력받아 그 평균을 계산하는 프로그램입니다. 이 예제를 통해 리스트와 for 루프를 활용하는 방법을 익힐 수 있습니다.\n\n먼저, 사용자가 쉼표로 구분된 여러 개의 점수를 한 번에 입력하도록 만들 거예요. 이 입력을 리스트와 for 문을 사용해 개별 점수로 나누고, 그 평균을 계산할 거예요.\n\n1. 점수 입력받기\n\n사용자가 쉼표로 구분된 점수들을 입력하면, 이를 split(\",\") 으로 분리해서 리스트로 변환할 거예요.\n\npython\n\n알아두기: split() 함수는 문자열을 특정 기준으로 나누어 리스트로 만들어주는 함수예요.\n여기서는 쉼표 , 를 기준으로 나누어 리스트로 만들었기 때문에, 쉼표 뒤에 공백이 없도록 입력해야 해요.\n\n🤔 그런데 왜 user_input_scores라는 문자열 변수 뒤에 . 을 붙이고 split() 함수를 사용했을까요? split() 함수가 문자열 타입에 속하는 함수이기 때문이에요. 문자열은 객체라고 불리는 일종의 물건으로, 객체마다 사용할 수 있는 다양한 함수가 포함되어 있어요. split() 도 그중 하나로, 특정 기준으로 문자열을 나눌 때 사용됩니다.\n\n코딩 놀이터\n실행\n로그\n\n[키워드]\nPython, print, for, i, range, f, input, user_input_scores, score_list, split, 리스트, for문, 문자열, 변수, 함수, 객체, python",
+      "latency_ms": 6835
+    },
+    {
+      "timestamp": 20.0,
+      "description": "[코드]\n```python\nprint(\"안녕하세요!\")\n\nfor i in range(5):\n    print(f\"숫자 {i}\")\n```\n\n화면 내 설명용 코드 블록:\n```python\nuser_input_scores = input(\"점수를 쉼표로 구분하여 입력하세요 (예: 85,90,78):\")\nscore_list = user_input_scores.split(\",\")  # 쉼표로 구분해 리스트로 변환\n```\n\n[실행결과]\n코드를 실행하면 결과가 여기에 표시됩니다...\n아직 로그가 없습니다...\n\n[화면텍스트]\n코딩 놀이터로 배우는 왕초보 파이썬\n진행중 82%\n\n22. 평균 계산기\n\n제를 통해 리스트와 for 루프를 활용하는 방법을 익힐 수 있습니다.\n\n먼저, 사용자가 쉼표로 구분된 여러 개의 점수를 한 번에 입력하도록 만들 거예요. 이 입력을 리스트와 for\n문을 사용해 개별 점수로 나누고, 그 평균을 계산할 거예요.\n\n1. 점수 입력받기\n\n사용자가 쉼표로 구분된 점수들을 입력하면, 이를 split(\",\")으로 분리해서 리스트로 변환할 거예요.\n\n알아두기: split() 함수는 문자열을 특정 기준으로 나누어 리스트로 만들어주는 함수예요.\n\n여기서는 쉼표 , 를 기준으로 나누어 리스트로 만들었기 때문에, 쉼표 뒤에 공백이 없도록 입력\n해야 해요.\n\n그런데 왜 user_input_scores라는 문자열 변수 뒤에 . 을 붙이고 split() 함수를 사용했을\n까요? split() 함수가 문자열 타입에 속하는 함수이기 때문이에요. 문자열은 객체라고 불리\n는 일종의 '물건'으로, 객체마다 사용할 수 있는 다양한 함수가 포함되어 있어요. split() 도 그\n중 하나로, 특정 기준으로 문자열을 나눌 때 사용됩니다.\n\n2. 점수 합산 및 평균 계산하기\n\n이제 score_list 에 있는 문자열 점수들을 숫자로 변환하고, 리스트의 모든 요소를 더한 후, 평균을 계산\n합니다.\n\n코딩 놀이터\n# 여기서 Python 코드를 직접 작성하고 실행해보세요!\n실행\n로그\n\n[키워드]\nprint, for, i, range, f-string, input, user_input_scores, score_list, split, 리스트, 문자열, 평균 계산기, Python",
+      "latency_ms": 7342
+    },
+    {
+      "timestamp": 40.0,
+      "description": "[코드]\n```python\nprint(\"안녕하세요!\")\n\nfor i in range(5):\n    print(f\"숫자 {i}\")\n```\n\n```python\nuser_input_scores = input(\"점수를 쉼표로 구분하여 입력하세요 (예: 85,90,78):\nscore_list = user_input_scores.split(\",\")  # 쉼표로 구분해 리스트로 변환\n```\n\n[실행결과]\n아직 로그가 없습니다...\n\n[화면텍스트]\n코딩 놀이터로 배우는 왕초보 파이썬\n진행중 82%\n22. 평균 계산기\n제를 통해 리스트와 for 루프를 활용하는 방법을 익힐 수 있습니다.\n먼저, 사용자가 쉼표로 구분된 여러 개의 점수를 한 번에 입력하도록 만들 거예요. 이 입력을 리스트와 for\n문을 사용해 개별 점수로 나누고, 그 평균을 계산할 거예요.\n\n1. 점수 입력받기\n\n사용자가 쉼표로 구분된 점수들을 입력하면, 이를 split(\",\")으로 분리해서 리스트로 변환할 거예요.\n\n알아두기: split() 함수는 문자열을 특정 기준으로 나누어 리스트로 만들어주는 함수예요.\n여기서는 쉼표 , 를 기준으로 나누어 리스트로 만들었기 때문에, 쉼표 뒤에 공백이 없도록 입력\n해야 해요.\n\n그런데 왜 user_input_scores라는 문자열 변수 뒤에 . 을 붙이고 split() 함수를 사용했을\n까요? split() 함수가 문자열 타입에 속하는 함수이기 때문이에요. 문자열은 객체라고 불리\n는 일종의 '물건'으로, 객체마다 사용할 수 있는 다양한 함수가 포함되어 있어요. split() 도 그\n중 하나로, 특정 기준으로 문자열을 나눌 때 사용됩니다.\n\n2. 점수 합산 및 평균 계산하기\n\n이제 score_list 에 있는 문자열 점수들을 숫자로 변환하고, 리스트의 모든 요소를 더한 후, 평균을 계산\n합니다.\n\n코딩 놀이터\n# 여기서 Python 코드를 직접 작성하고 실행해보세요!\n실행\n코드를 실행하면 결과가 여기에 표시됩니다...\n로그\n\n[키워드]\nprint, for, i, range, f-string, input, user_input_scores, score_list, split, 리스트, 문자열, 변수, 함수, 객체, Python",
+      "latency_ms": 6957
+    },
+    {
+      "timestamp": 60.0,
+      "description": "[코드]\n```python\nprint(\"안녕하세요!\")\n\nfor i in range(5):\n    print(f\"숫자 {i}\")\n```\n\n[실행결과]\n아직 로그가 없습니다...\n\n[화면텍스트]\n코딩 놀이터로 배우는 왕초보 파이썬\n진행중 82%\n22. 평균 계산기\n제를 통해 리스트와 for 루프를 활용하는 방법을 익힐 수 있습니다.\n먼저, 사용자가 쉼표로 구분된 여러 개의 점수를 한 번에 입력하도록 만들 거예요. 이 입력을 리스트와 for\n문을 사용해 개별 점수로 나누고, 그 평균을 계산할 거예요.\n1. 점수 입력받기\n사용자가 쉼표로 구분된 점수들을 입력하면, 이를 split(\",\") 으로 분리해서 리스트로 변환할 거예요.\npython\nuser_input_scores = input(\"점수를 쉼표로 구분하여 입력하세요 (예: 85,90,78):\nscore_list = user_input_scores.split(\",\") # 쉼표로 구분해 리스트로 변환\n알아두기: split() 함수는 문자열을 특정 기준으로 나누어 리스트로 만들어주는 함수예요.\n여기서는 쉼표 , 를 기준으로 나누어 리스트로 만들었기 때문에, 쉼표 뒤에 공백이 없도록 입력\n해야 해요.\n그런데 왜 user_input_scores라는 문자열 변수 뒤에 . 을 붙이고 split() 함수를 사용했을\n까요? split() 함수가 문자열 타입에 속하는 함수이기 때문이에요. 문자열은 객체라고 불리\n는 일종의 '물건'으로, 객체마다 사용할 수 있는 다양한 함수가 포함되어 있어요. split() 도 그\n중 하나로, 특정 기준으로 문자열을 나눌 때 사용됩니다.\n2. 점수 합산 및 평균 계산하기\n이제 score_list 에 있는 문자열 점수들을 숫자로 변환하고, 리스트의 모든 요소를 더한 후, 평균을 계산\n합니다.\npython\n코딩 놀이터\n# 여기서 Python 코드를 직접 작성하고 실행해보세요!\n실행\n코드를 실행하면 결과가 여기에 표시됩니다...\n로그\n\n[키워드]\nprint, for, i, range, f-string, split, input, user_input_scores, score_list, 리스트, 문자열, 함수, Python",
+      "latency_ms": 6420
+    },
+    {
+      "timestamp": 80.0,
+      "description": "[코드]\n```python\nprint(\"안녕하세요!\")\n\nfor i in range(5):\n    print(f\"숫자 {i}\")\n```\n\n```python\ntotal = 0\nfor score in score_list:\n    total += int(score)  # 문자열을 정수로 변환하여 합산\n\naverage = total / len(score_list)  # 점수의 개수로 나누어 평균 계산\n```\n\n[실행결과]\n코드를 실행하면 결과가 여기에 표시됩니다...\n아직 로그가 없습니다...\n\n[화면텍스트]\n코딩 놀이터로 배우는 왕초보 파이썬\n진행중 82%\n22. 평균 계산기\n🧑‍🏫 그런데 왜 user_input_scores라는 문자열 변수 뒤에 . 을 붙이고 split() 함수를 사용했을까요?\nsplit() 함수가 문자열 타입에 속하는 함수이기 때문이에요. 문자열은 객체라고 불리는 일종의 '물건'으로, 객체마다 사용할 수 있는 다양한 함수가 포함되어 있어요. split() 도 그 중 하나로, 특정 기준으로 문자열을 나눌 때 사용됩니다.\n2. 점수 합산 및 평균 계산하기\n이제 score_list 에 있는 문자열 점수들을 숫자로 변환하고, 리스트의 모든 요소를 더한 후, 평균을 계산합니다.\npython\n여기서 새로운 표현 등장! total += int(score) 의 += 는 뭘까요? 조금 낯선 연산자죠?\n이 표현은 사실 total = total + int(score) 와 같은 의미예요. 같은 값을 반복해서 계산할 때 더 짧게 쓰기 위한 방법이랍니다. 즉, total 에 int(score) 를 더한 값을 다시 total 에 저장하는 거예요.\n비슷하게, -= 는 빼기, *= 는 곱하기, /= 는 나누기를 간단히 표현해줘요. 이런 표현들은 코드를 더 짧고 읽기 쉽게 만들어주는 좋은 방법이에요!\n3. 결과 출력\n코딩 놀이터\n# 여기서 Python 코드를 직접 작성하고 실행해보세요!\n실행\n로그\n\n[키워드]\nprint, for, i, range, f-string, total, score, score_list, int, average, len, split, user_input_scores, +=, -=, *=, /=, Python, 문자열, 리스트, 평균 계산",
+      "latency_ms": 6575
+    },
+    {
+      "timestamp": 100.0,
+      "description": "[코드]\n```python\ntotal = 0\nfor score in score_list:\n    total += int(score)  # 문자열을 정수로 변환하여 합산\n\naverage = total / len(score_list)  # 점수의 개수로 나누어 평균 계산\n```\n\n```python\nprint(\"안녕하세요!\")\n\nfor i in range(5):\n    print(f\"숫자 {i}\")\n```\n\n```python\nprint(\"입력한 점수들의 평균은:\", average)\n```\n\n[실행결과]\n아직 로그가 없습니다...\n\n[화면텍스트]\n코딩 놀이터로 배우는 왕초보 파이썬  \n진행중 82%\n\n는 일종의 '물건'으로, 객체마다 사용할 수 있는 다양한 함수가 포함되어 있어요. split() 도 그  \n중 하나로, 특정 기준으로 문자열을 나눌 때 사용됩니다.\n\n2. 점수 합산 및 평균 계산하기\n\n이제 score_list 에 있는 문자열 점수들을 숫자로 변환하고, 리스트의 모든 요소를 더한 후, 평균을 계산합니다.\n\npython\n\n여기서 새로운 표현 등장! total += int(score) 의 += 는 뭘까요? 조금 낯선 연산자죠?  \n이 표현은 사실 total = total + int(score) 와 같은 의미예요. 같은 값을 반복해서 계  \n산할 때 더 짧게 쓰기 위한 방법이랍니다. 즉, total 에 int(score) 를 더한 값을 다시  \ntotal 에 저장하는 거예요.\n\n비슷하게, -= 는 빼기, *= 는 곱하기, /= 는 나누기를 간단히 표현해줘요. 이런 표현들은 코드  \n를 더 짧고 읽기 쉽게 만들어주는 좋은 방법이에요!\n\n3. 결과 출력\n\n마지막으로 계산된 평균 점수를 출력합니다.\n\n코딩 놀이터  \n# 여기서 Python 코드를 직접 작성하고 실행해보세요!  \n실행  \n코드를 실행하면 결과가 여기에 표시됩니다...  \n로그\n\n[키워드]\npython, split(), score_list, total, for, score, int, average, len, print, range, i, f-string, +=, -=, *=, /=",
+      "latency_ms": 5946
+    },
+    {
+      "timestamp": 120.0,
+      "description": "[코드]\n```python\ntotal = 0\nfor score in score_list:\n    total += int(score)  # 문자열을 정수로 변환하여 합산\n\naverage = total / len(score_list)  # 점수의 개수로 나누어 평균 계산\n```\n\n```python\nprint(\"입력한 점수들의 평균은:\", average)\n```\n\n```python\nprint(\"안녕하세요!\")\n\nfor i in range(5):\n    print(f\"숫자 {i}\")\n```\n\n[실행결과]\n아직 로그가 없습니다...\n\n[화면텍스트]\n코딩 놀이터로 배우는 왕초보 파이썬\n진행중 82%\n2. 점수 합산 및 평균 계산하기\n이제 score_list 에 있는 문자열 점수들을 숫자로 변환하고, 리스트의 모든 요소를 더한 후, 평균을 계산합니다.\npython\n여기서 새로운 표현 등장! total += int(score) 의 += 는 뭘까요? 조금 낯선 연산자죠?\n이 표현은 사실 total = total + int(score) 와 같은 의미예요. 같은 값을 반복해서 계산할 때 더 짧게 쓰기 위한 방법이랍니다. 즉, total 에 int(score) 를 더한 값을 다시 total 에 저장하는 거예요.\n비슷하게, -= 는 빼기, *= 는 곱하기, /= 는 나누기를 간단히 표현해줘요. 이런 표현들은 코드를 더 짧고 읽기 쉽게 만들어주는 좋은 방법이에요!\n3. 결과 출력\n마지막으로 계산된 평균 점수를 출력합니다.\npython\n코딩 놀이터\n# 여기서 Python 코드를 직접 작성하고 실행해보세요!\n실행\n코드를 실행하면 결과가 여기에 표시됩니다...\n로그\n안녕하세요!\n\n[키워드]\nscore_list, total, for, score, int, average, len, print, i, range, f-string, +=, -=, *=, /=",
+      "latency_ms": 5214
+    },
+    {
+      "timestamp": 140.0,
+      "description": "[코드]\n```python\nuser_input_scores = input(\"점수를 쉼표로 구분하여 입력하세요 (예: 85,90,78): \")\nscore_list = user_input_scores.split(\",\")  # 쉼표를 기준으로 분리해 리스트 생성\n\n# 점수를 합산하고 평균 계산\ntotal = 0\nfor score in score_list:\n    total += int(score)  # 각 점수를 정수로 변환 후 합산\n\naverage = total / len(score_list)  # 총합을 개수로 나누어 평균 계산\n\n# 결과 출력\nprint(\"입력한 점수들의 평균은:\", average)\n```\n\n[실행결과]\n코드를 실행하면 결과가 여기에 표시됩니다...\n아직 로그가 없습니다...\n\n[화면텍스트]\n코딩 놀이터로 배우는 왕초보 파이썬\n진행중 82%\n전체 코드\n이제 모든 단계를 합쳐서 완성된 코드를 만들어볼게요.\npython\n놀이터에서 실행\n👇 실행 결과 (85,90,78을 입력했을 때):\n점수를 쉼표로 구분하여 입력하세요 (예: 85,90,78): 85,90,78\n입력한 점수들의 평균은: 84.33333333333333\n이제 놀이터에서 코드를 실행하고 다양한 점수들을 입력해보세요!\nlocalhost:9000 says\n점수를 쉼표로 구분하여 입력하세요 (예: 85,90,78):\nCancel\nOK\n실행\n로그\n\n[키워드]\ninput, user_input_scores, score_list, split, total, for, score, in, int, average, len, print, 리스트, 정수, 평균",
+      "latency_ms": 4703
+    },
+    {
+      "timestamp": 160.0,
+      "description": "[코드]\n```python\n# 쉼표로 구분된 점수를 입력받기\nuser_input_scores = input(\"점수를 쉼표로 구분하여 입력하세요 (예: 85,90,78): \")\nscore_list = user_input_scores.split(\",\")  # 쉼표를 기준으로 분리해 리스트 생성\n\n# 점수를 합산하고 평균 계산\ntotal = 0\nfor score in score_list:\n    total += int(score)  # 각 점수를 정수로 변환 후 합산\n\naverage = total / len(score_list)  # 총합을 개수로 나누어 평균 계산\n\n# 결과 출력\nprint(\"입력한 점수들의 평균은:\", average)\n```\n\n[실행결과]\n입력한 점수들의 평균은: 87.8\n\n[화면텍스트]\n코딩 놀이터로 배우는 왕초보 파이썬\n진행중 82%\n전체 코드\n이제 모든 단계를 합쳐서 완성된 코드를 만들어볼게요.\npython\n놀이터에서 실행\n👇실행 결과 (85,90,78을 입력했을 때):\n점수를 쉼표로 구분하여 입력하세요 (예: 85,90,78): 85,90,78\n입력한 점수들의 평균은: 84.33333333333333\n이제 놀이터에서 코드를 실행하고 다양한 점수들을 입력해보세요!\n코딩 놀이터\n실행\n로그\n코드가 잘 실행되었어요 😀👍\n2025/12/10, 18:59:54\n\n[키워드]\ninput, user_input_scores, score_list, split, total, for, score, in, int, average, len, print, list, 평균, 점수",
+      "latency_ms": 6299
+    },
+    {
+      "timestamp": 180.0,
+      "description": "[코드]\n```python\n# 점수로 구분된 점수를 입력받기\nuser_input_scores = input(\"점수를 쉼표로 구분하여 입력하세요 (예: 85,90,78): \")\nscore_list = user_input_scores.split(\",\")  # 쉼표를 기준으로 분리해 리스트 생성\n\n# 점수를 합산하고 평균 계산\ntotal = 0\nfor score in score_list:\n    total += int(score)  # 각 점수를 정수로 변환 후 합산\n\naverage = total / len(score_list)  # 총합을 개수로 나누어 평균 계산\n\n# 결과 출력\nprint(\"입력한\", len(score_list), \"개 점수들의 평균은:\", average)\n```\n\n[실행결과]\n```text\n입력한 점수들의 평균은: 87.8\n```\n\n[화면텍스트]\n```text\n코딩 놀이터로 배우는 왕초보 파이썬\n진행중 82%\n\n전체 코드\n이제 모든 단계를 합쳐서 완성된 코드를 만들어볼게요.\n\npython\n놀이터에서 실행\n\n👇 실행 결과 (85,90,78을 입력했을 때):\n점수를 쉼표로 구분하여 입력하세요 (예: 85,90,78): 85,90,78\n입력한 점수들의 평균은: 84.33333333333333\n\n이제 놀이터에서 코드를 실행하고 다양한 점수들을 입력해보세요!\n\nlocalhost:9000 says\n점수를 쉼표로 구분하여 입력하세요 (예: 85,90,78):\n78,89,9\nCancel\nOK\n\n실행\n로그\n코드가 잘 실행되었어요 😀👍\n2025/12/10, 18:59:54\n```\n\n[키워드]\ninput, user_input_scores, score_list, split, total, for, score, int, average, len, print, 리스트, 정수, 평균",
+      "latency_ms": 5011
+    }
+  ]
+}

@@ -1,0 +1,621 @@
+{
+  "label": "compare_correction_on",
+  "timestamp": "2026-04-12T06:37:21.275401+00:00",
+  "media_id": "80c84ec0-84e8-470d-a72a-42ec08007156",
+  "dataset": "coding-tutorial",
+  "mode": "compare",
+  "changed": [
+    "embed"
+  ],
+  "target": "qa",
+  "config": {
+    "transcription_provider": "openai",
+    "whisper_model_size": "large-v3-turbo",
+    "openai_whisper_model": "whisper-1",
+    "vision_provider": "openai",
+    "vision_model": "gpt-4o-mini",
+    "prompt_version": "v5-code",
+    "frames_per_minute": 3,
+    "embedding_provider": "local",
+    "embed_model": "bge-m3",
+    "embedding_dim": 1024,
+    "chunk_window_seconds": 20.0,
+    "chunk_overlap_seconds": 5.0,
+    "use_correction": true,
+    "correction_provider": "openai",
+    "correction_model": "gpt-4o-mini",
+    "correction_prompt_version": "v1",
+    "chat_provider": "openai",
+    "chat_model": "gpt-4o-mini",
+    "qa_prompt_version": "v1",
+    "judge_provider": "openai",
+    "search_threshold": 0.3,
+    "search_top_k": 3,
+    "use_rerank": true,
+    "rerank_model": "rerank-multilingual-v3.0",
+    "rerank_top_n": 3,
+    "search_pre_rerank_k": 15
+  },
+  "prompts": {
+    "vision": {
+      "version": "v5-code",
+      "text": "이 프레임은 프로그래밍 강의 영상의 {timestamp:.1f}초 지점입니다.\n화면에 표시된 내용을 아래 형식으로 정확히 추출하세요:\n\n[코드] 화면에 보이는 코드를 그대로 옮겨 적으세요. 변수명, 함수명, 연산자를 정확히 기록하세요.\n[실행결과] 출력창에 보이는 텍스트가 있으면 그대로 옮기세요.\n[화면텍스트] 슬라이드, 주석, 안내 문구 등 코드 외의 텍스트를 기록하세요.\n[키워드] 위에서 추출한 프로그래밍 용어를 쉼표로 나열하세요.\n\n보이지 않는 내용은 추측하지 마세요. 보이는 것만 기록하세요."
+    },
+    "qa_system": {
+      "version": "v1",
+      "text": "[역할]\n- 너는 업로드된 인터뷰 영상·음성의 전사와 프레임 분석을 근거로만 답변하는\n멀티모달 RAG 어시스턴트다.\n\n[행동 원칙]\n- 항상 검색된 컨텍스트(전사/프레임 설명) 안에서만 답변한다.\n- 사용자의 질문 의도와 직접 관련된 근거를 우선 인용하고, 불필요한 추론은 하지 않는다.\n- 확실한 근거가 있는 사실과 해석/추정을 분리해서 표현한다.\n- 가능하면 핵심 문장을 짧고 명확하게 답하고, 이어서 근거를 제시한다.\n\n[타임스탬프 원칙]\n- 사실을 언급할 때는 반드시 해당 근거의 시작 시각을 [mm:ss] 형식으로 함께 표기한다.\n- 여러 구간을 근거로 사용할 때는 각 주장 옆에 개별 타임스탬프를 붙인다.\n- 정확한 시간 정보가 없으면 임의로 만들지 말고 \"타임스탬프 확인 불가\"라고 명시한다.\n\n[환각 방지]\n- 컨텍스트에 없는 사실은 단정하지 않고 \"제공된 영상/전사에서 확인되지 않습니다\"라고 답한다.\n- 추정이 필요한 질문은 \"추정입니다\"라고 라벨링하고, 근거 부족을 함께 밝힌다.\n- 질문이 전제한 사실이 근거와 다르면, 사실을 정정하고 확인 가능한 내용만 제시한다.\n\n[오디오/비전 불일치 처리]\n- 전사(오디오)와 프레임(비전) 근거를 분리해 병기하고, 서로 충돌하는 지점을 명시한다.\n- 의미적 충돌이 있을 때는 \"불일치 가능성\"을 먼저 알리고 추가 확인이 필요하다고 안내한다.\n- 우선순위는 발화 내용(전사)을 기본으로 두되, 시각적 단서가 강한 경우 비전 근거를 함께 제시한다.\n\n[응답 형식]\n- 답변:\n- 근거 타임스탬프:\n- 확인되지 않는 내용:"
+    },
+    "correction": {
+      "version": "v1",
+      "text": "[화면에 보이는 내용]\n{frame_description}\n\n[음성 전사 원문]\n{transcription_text}\n\n지시:\n1. 화면의 코드·함수명·변수명과 관련된 발화는 화면 기준으로 교정한다.\n2. 화면과 무관한 설명 문장은 원문 그대로 유지한다.\n3. 화면에 없는 코드를 추측하여 추가하지 않는다.\n교정된 전사 텍스트만 반환한다."
+    },
+    "rerank_doc": {
+      "version": "v1",
+      "text": "[{start_time:.0f}s] {text}"
+    },
+    "eval_answer_relevance": {
+      "version": "v1",
+      "text": "당신은 답변 품질 평가자입니다.\n아래 질문에 대해 답변이 얼마나 적절한지 0.0~1.0으로 평가하세요.\n\n평가 기준:\n- 1.0: 질문의 핵심을 정확히 답변함\n- 0.7~0.9: 대체로 관련 있지만 일부 부정확하거나 불완전함\n- 0.4~0.6: 부분적으로만 관련 있음\n- 0.1~0.3: 거의 관련 없음\n- 0.0: 완전히 무관하거나 답변 거부\n\n숫자 하나만 반환하세요.\n질문: {question}\n답변: {answer}"
+    },
+    "eval_groundedness": {
+      "version": "v1",
+      "text": "당신은 근거성 평가자입니다.\n아래 답변이 주어진 컨텍스트의 내용에만 근거하는지 0.0~1.0으로 평가하세요.\n\n평가 기준:\n- 1.0: 답변의 모든 내용이 컨텍스트에서 직접 확인됨\n- 0.7~0.9: 대부분 컨텍스트에 근거하지만 약간의 추론 포함\n- 0.4~0.6: 일부 내용만 컨텍스트에서 확인 가능\n- 0.1~0.3: 컨텍스트에 없는 내용을 상당히 포함 (할루시네이션)\n- 0.0: 컨텍스트와 무관한 답변\n\n숫자 하나만 반환하세요.\n컨텍스트: {context}\n답변: {answer}"
+    },
+    "eval_retrieval_precision": {
+      "version": "v1",
+      "text": "당신은 검색 품질 평가자입니다.\n아래 질문에 답변하기 위해 이 텍스트가 유용한 정보를 포함하고 있는지 판단하세요.\n\n판단 기준:\n- 질문이 '언제', '몇 초'를 묻더라도, 해당 주제에 대한 내용이 텍스트에 있으면 관련 있음(1)\n- 질문의 핵심 주제(사람, 사건, 장소 등)와 텍스트의 내용이 의미적으로 관련되면 1\n- 텍스트가 질문의 주제와 전혀 무관한 내용이면 0\n\n1 또는 0만 반환하세요.\n질문: {question}\n텍스트: {text}"
+    },
+    "eval_visual_text_alignment": {
+      "version": "v1",
+      "text": "영상의 한 구간에서 추출한 시각 정보와 음성 정보입니다.\n두 정보가 같은 장면·맥락에서 나온 것인지 정합성을 평가하세요.\n\n평가 기준:\n- 시각 묘사의 장소·인물·상황이 음성 대화의 맥락과 일치하는가\n- 시각에서 보이는 행동이 음성에서 언급하는 내용과 부합하는가\n- 완전히 무관하면 0.0, 같은 장면에서 자연스럽게 나올 수 있으면 1.0\n\n숫자만 반환하세요.\n\n[시각 정보] {frame_description}\n[음성 정보] {transcript_text}"
+    }
+  },
+  "latency_ms": {
+    "embed_save": 4685,
+    "qa_total": 25163
+  },
+  "qa_results": [
+    {
+      "test_id": "T1",
+      "test_type": "비전질문",
+      "query": "영상에서 사용된 파이썬 내장 함수를 모두 나열해줘",
+      "answer": "답변: 영상에서 사용된 파이썬 내장 함수는 `input()`과 `split()`입니다.\n\n근거 타임스탬프:\n- `input()`: [60s]\n- `split()`: [30s], [60s]\n\n확인되지 않는 내용: 제공된 영상/전사에서 다른 내장 함수는 확인되지 않습니다.",
+      "context_text": "",
+      "sources": [
+        {
+          "chunk_index": 3,
+          "similarity": 0.465312739683397,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 8,
+          "similarity": 0.450733709111114,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 2,
+          "similarity": 0.443683287640819,
+          "accepted": true,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 6,
+          "similarity": 0.430557591672096,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 5,
+          "similarity": 0.429319554148661,
+          "accepted": true,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 12,
+          "similarity": 0.427358526965968,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 9,
+          "similarity": 0.423140252528215,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 11,
+          "similarity": 0.419831351124905,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 4,
+          "similarity": 0.418908559496786,
+          "accepted": true,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 0,
+          "similarity": 0.408716092176759,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 7,
+          "similarity": 0.402676164795741,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 1,
+          "similarity": 0.397528409364622,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 10,
+          "similarity": 0.392460460181329,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        }
+      ],
+      "metrics": {
+        "answer_relevance": 0.9,
+        "groundedness": 0.7,
+        "retrieval_precision": 0.0
+      },
+      "latency_ms": 5539,
+      "_context_text_removed": "third-party video transcript removed for public release"
+    },
+    {
+      "test_id": "T2",
+      "test_type": "비전질문",
+      "query": "total 변수의 초기값은 무엇인가?",
+      "answer": "- 답변: total 변수의 초기값은 0입니다.\n- 근거 타임스탬프: [90s] \"total = 0\"\n- 확인되지 않는 내용: 타임스탬프 확인 불가",
+      "context_text": "",
+      "sources": [
+        {
+          "chunk_index": 5,
+          "similarity": 0.528289687122518,
+          "accepted": true,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 8,
+          "similarity": 0.526662787068871,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 7,
+          "similarity": 0.518519096072221,
+          "accepted": true,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 6,
+          "similarity": 0.489158089245746,
+          "accepted": true,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 12,
+          "similarity": 0.459659503922917,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 9,
+          "similarity": 0.457735731704759,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 11,
+          "similarity": 0.41734829173314,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 10,
+          "similarity": 0.411841167240939,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 4,
+          "similarity": 0.409581681343901,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 3,
+          "similarity": 0.369919204741156,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 0,
+          "similarity": 0.368673654302481,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 2,
+          "similarity": 0.354416438060845,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 1,
+          "similarity": 0.315647319990578,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        }
+      ],
+      "metrics": {
+        "answer_relevance": 1.0,
+        "groundedness": 0.9,
+        "retrieval_precision": 0.6666666666666666
+      },
+      "latency_ms": 4706,
+      "_context_text_removed": "third-party video transcript removed for public release"
+    },
+    {
+      "test_id": "T3",
+      "test_type": "비전질문",
+      "query": "영상 실행 화면에서 직접 입력한 숫자들은 무엇인가?",
+      "answer": "답변: 영상에서 직접 입력한 숫자는 \"85,90,78\"입니다.\n\n근거 타임스탬프: [135s]\n\n확인되지 않는 내용: 영상에서 다른 숫자는 추가로 직접 입력된 것에 대한 정보는 확인되지 않습니다.",
+      "context_text": "",
+      "sources": [
+        {
+          "chunk_index": 12,
+          "similarity": 0.51082046946603,
+          "accepted": true,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 10,
+          "similarity": 0.50077090536167,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 5,
+          "similarity": 0.494047971414554,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 11,
+          "similarity": 0.493620772024377,
+          "accepted": true,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 9,
+          "similarity": 0.493549869477306,
+          "accepted": true,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 2,
+          "similarity": 0.482727392283312,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 1,
+          "similarity": 0.477960584360097,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 8,
+          "similarity": 0.477818116290714,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 3,
+          "similarity": 0.472638307586046,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 4,
+          "similarity": 0.452051238714579,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 6,
+          "similarity": 0.450438752320217,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 0,
+          "similarity": 0.44977825268403,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 7,
+          "similarity": 0.434343188556427,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        }
+      ],
+      "metrics": {
+        "answer_relevance": 0.7,
+        "groundedness": 0.3,
+        "retrieval_precision": 1.0
+      },
+      "latency_ms": 4624,
+      "_context_text_removed": "third-party video transcript removed for public release"
+    },
+    {
+      "test_id": "T4",
+      "test_type": "단순사실",
+      "query": "점수를 입력받을 때 사용한 구분자는 무엇인가?",
+      "answer": "- 답변: 점수를 입력받을 때 사용한 구분자는 쉼표입니다.\n- 근거 타임스탬프: [30s], [45s]\n- 확인되지 않는 내용: 타임스탬프 확인 불가",
+      "context_text": "",
+      "sources": [
+        {
+          "chunk_index": 2,
+          "similarity": 0.671790179831548,
+          "accepted": true,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 4,
+          "similarity": 0.666210498644135,
+          "accepted": true,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 3,
+          "similarity": 0.658618317514976,
+          "accepted": true,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 1,
+          "similarity": 0.658316984725523,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 0,
+          "similarity": 0.632716853681304,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 9,
+          "similarity": 0.603274367318713,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 12,
+          "similarity": 0.601678275860328,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 11,
+          "similarity": 0.600425157839109,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 10,
+          "similarity": 0.58243121123644,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 8,
+          "similarity": 0.578517019770229,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 6,
+          "similarity": 0.558945001687591,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 7,
+          "similarity": 0.555890603244278,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 5,
+          "similarity": 0.550755788936324,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        }
+      ],
+      "metrics": {
+        "answer_relevance": 0.7,
+        "groundedness": 0.7,
+        "retrieval_precision": 0.6666666666666666
+      },
+      "latency_ms": 4736,
+      "_context_text_removed": "third-party video transcript removed for public release"
+    },
+    {
+      "test_id": "T5",
+      "test_type": "비전질문",
+      "query": "평균을 계산하는 코드는 어떻게 작성되어 있는가?",
+      "answer": "답변: 평균을 계산하는 코드는 다음과 같이 작성되어 있습니다.\n```python\ntotal = 0\nfor score in score_list:\n    total += int(score)  # 각 점수를 정수로 변환 후 합산\naverage = total / len(score_list)  # 총합을 개수로 나누어 평균 계산\n```\n\n근거 타임스탬프: [135s], [120s]  \n확인되지 않는 내용: 없음",
+      "context_text": "",
+      "sources": [
+        {
+          "chunk_index": 9,
+          "similarity": 0.691669894825685,
+          "accepted": true,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 12,
+          "similarity": 0.671780207348524,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 8,
+          "similarity": 0.663659602299761,
+          "accepted": true,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 0,
+          "similarity": 0.65021664795362,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 10,
+          "similarity": 0.64900897145964,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 7,
+          "similarity": 0.646089479109048,
+          "accepted": true,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 11,
+          "similarity": 0.640741762520498,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 6,
+          "similarity": 0.616175892934038,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 5,
+          "similarity": 0.604210960655205,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 3,
+          "similarity": 0.570659219650959,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 4,
+          "similarity": 0.561262506963126,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 2,
+          "similarity": 0.473103541846504,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        },
+        {
+          "chunk_index": 1,
+          "similarity": 0.446764900711945,
+          "accepted": false,
+          "text": "",
+          "_text_removed": "third-party video transcript removed for public release"
+        }
+      ],
+      "metrics": {
+        "answer_relevance": 1.0,
+        "groundedness": 1.0,
+        "retrieval_precision": 0.3333333333333333
+      },
+      "latency_ms": 5558,
+      "_context_text_removed": "third-party video transcript removed for public release"
+    }
+  ],
+  "metrics": {
+    "wer": null,
+    "cer": null,
+    "answer_relevance": 0.86,
+    "groundedness": 0.72,
+    "retrieval_precision": 0.5333
+  }
+}

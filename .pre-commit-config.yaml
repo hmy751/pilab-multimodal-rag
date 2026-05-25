@@ -1,0 +1,33 @@
+repos:
+  - repo: https://github.com/psf/black
+    rev: 24.4.2
+    hooks:
+      - id: black
+        language_version: python3.11
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.4.4
+    hooks:
+      - id: ruff
+        args: [--fix]
+
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+        args: ["--baseline", ".secrets.baseline"]
+
+  - repo: local
+    hooks:
+      - id: demo-site-lint
+        name: demo-site ESLint
+        entry: bash -c 'cd demo-site && pnpm lint'
+        language: system
+        files: ^demo-site/.*\.(ts|tsx)$
+        pass_filenames: false
+      - id: demo-site-typecheck
+        name: demo-site TypeScript
+        entry: bash -c 'cd demo-site && pnpm exec tsc --noEmit'
+        language: system
+        files: ^demo-site/.*\.(ts|tsx)$
+        pass_filenames: false
